@@ -12,6 +12,9 @@ function Client() {
     const [editingRequest, setEditingRequest] = useState(null);
     const [authChecked, setAuthChecked] = useState(false);
     const [isFetching, setIsFetching] = useState(true);
+    const [notifications, setNotifications] = useState([]);
+    const [showNotifications, setShowNotifications] = useState(false);
+    const [unreadCount, setUnreadCount] = useState(0);
 
     const [formData, setFormData] = useState({
         clientName: '',
@@ -118,6 +121,27 @@ function Client() {
                 // Filter by userId
                 const userRequests = updatedRequests.filter(req => req.userId === userId);
                 console.log('🔄 Real-time update - User requests:', userRequests.length);
+                
+                // Check for status changes and create notifications
+                userRequests.forEach((request) => {
+                    const existingRequest = clientRequests.find(r => r.id === request.id);
+                    if (existingRequest && existingRequest.status !== request.status) {
+                        // Status changed - create notification
+                        const notification = {
+                            id: Date.now() + Math.random(),
+                            requestId: request.id,
+                            serviceType: request.serviceType,
+                            oldStatus: existingRequest.status,
+                            newStatus: request.status,
+                            message: getStatusChangeMessage(existingRequest.status, request.status, request.serviceType),
+                            timestamp: new Date(),
+                            read: false
+                        };
+                        setNotifications(prev => [notification, ...prev]);
+                        setUnreadCount(prev => prev + 1);
+                    }
+                });
+                
                 setClientRequests(userRequests);
             }, (error) => {
                 console.error('❌ Real-time error:', error);
@@ -129,6 +153,22 @@ function Client() {
             setIsFetching(false);
             setErrorMessage('Error loading requests: ' + error.message);
         }
+    };
+
+    // Get status change message
+    const getStatusChangeMessage = (oldStatus, newStatus, serviceType) => {
+        const serviceLabel = serviceTypes.find(s => s.value === serviceType)?.label || 'Your request';
+        const messages = {
+            'pending-approved': `✅ ${serviceLabel} has been approved!`,
+            'pending-rejected': `❌ ${serviceLabel} has been rejected.`,
+            'pending-in-progress': `🔄 ${serviceLabel} is now in progress.`,
+            'approved-in-progress': `🔄 ${serviceLabel} is now in progress.`,
+            'in-progress-completed': `🎉 ${serviceLabel} has been completed!`,
+            'approved-completed': `🎉 ${serviceLabel} has been completed!`,
+            'pending-completed': `🎉 ${serviceLabel} has been completed!`,
+        };
+        const key = `${oldStatus}-${newStatus}`;
+        return messages[key] || `📢 ${serviceLabel} status updated to ${newStatus}`;
     };
 
     // Manual refresh
@@ -256,6 +296,28 @@ function Client() {
             additionalNotes: request.additionalNotes || ''
         });
         setShowForm(true);
+    };
+
+    const handleNotificationClick = (notificationId) => {
+        setNotifications(prev => 
+            prev.map(n => n.id === notificationId ? { ...n, read: true } : n)
+        );
+        setUnreadCount(prev => Math.max(0, prev - 1));
+    };
+
+    const markAllAsRead = () => {
+        setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+        setUnreadCount(0);
+    };
+
+    const getNotificationIcon = (newStatus) => {
+        const icons = {
+            'approved': '✅',
+            'rejected': '❌',
+            'in-progress': '🔄',
+            'completed': '🎉'
+        };
+        return icons[newStatus] || '📢';
     };
 
     const getStatusBadge = (status) => {
@@ -542,6 +604,164 @@ function Client() {
                     box-shadow: 0 0 20px rgba(255, 107, 107, 0.1);
                 }
 
+                /* Notification Bell Styles */
+                .notification-container {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .bell-icon {
+                    font-size: 1.8rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    padding: 8px;
+                    border-radius: 50%;
+                    background: transparent;
+                    border: none;
+                    color: #A8B2D1;
+                    position: relative;
+                }
+
+                .bell-icon:hover {
+                    transform: scale(1.1);
+                    background: rgba(255, 107, 107, 0.1);
+                    color: #FFD93D;
+                }
+
+                .bell-icon .badge {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    background: #FF6B6B;
+                    color: #fff;
+                    border-radius: 50%;
+                    padding: 2px 8px;
+                    font-size: 0.7rem;
+                    font-weight: bold;
+                    min-width: 20px;
+                    text-align: center;
+                    animation: pulse 2s infinite;
+                }
+
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.1); }
+                    100% { transform: scale(1); }
+                }
+
+                .notification-dropdown {
+                    position: absolute;
+                    top: 55px;
+                    right: 0;
+                    background: #1A1E37;
+                    border: 1px solid rgba(255, 107, 107, 0.25);
+                    border-radius: 16px;
+                    width: 380px;
+                    max-height: 450px;
+                    overflow-y: auto;
+                    z-index: 9999;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                    animation: slideDown 0.3s ease;
+                }
+
+                @keyframes slideDown {
+                    from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+                    to { opacity: 1; transform: translateY(0) scale(1); }
+                }
+
+                .notification-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 15px 20px;
+                    border-bottom: 1px solid rgba(255, 107, 107, 0.1);
+                }
+
+                .notification-header h3 {
+                    color: #FFD93D;
+                    margin: 0;
+                    font-size: 1rem;
+                }
+
+                .notification-header .mark-all-btn {
+                    background: none;
+                    border: none;
+                    color: #4D96FF;
+                    cursor: pointer;
+                    font-size: 0.8rem;
+                    transition: all 0.3s ease;
+                }
+
+                .notification-header .mark-all-btn:hover {
+                    color: #6BCB77;
+                }
+
+                .notification-item {
+                    padding: 12px 20px;
+                    border-bottom: 1px solid rgba(255, 107, 107, 0.05);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 12px;
+                }
+
+                .notification-item:hover {
+                    background: rgba(255, 107, 107, 0.05);
+                }
+
+                .notification-item.unread {
+                    background: rgba(255, 217, 61, 0.05);
+                    border-left: 3px solid #FFD93D;
+                }
+
+                .notification-item.read {
+                    opacity: 0.6;
+                }
+
+                .notification-icon {
+                    font-size: 1.5rem;
+                    flex-shrink: 0;
+                }
+
+                .notification-content {
+                    flex: 1;
+                }
+
+                .notification-content .message {
+                    color: #E0E0E0;
+                    font-size: 0.9rem;
+                    margin: 0 0 4px 0;
+                    line-height: 1.4;
+                }
+
+                .notification-content .time {
+                    color: #666;
+                    font-size: 0.7rem;
+                    margin: 0;
+                }
+
+                .notification-item .status-badge {
+                    padding: 2px 10px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                    font-weight: bold;
+                    display: inline-block;
+                    margin-top: 4px;
+                }
+
+                .notification-empty {
+                    padding: 30px 20px;
+                    text-align: center;
+                    color: #666;
+                }
+
+                .notification-empty .empty-icon {
+                    font-size: 2.5rem;
+                    display: block;
+                    margin-bottom: 10px;
+                }
+
                 /* Modal Styles */
                 .modal-overlay {
                     position: fixed;
@@ -791,6 +1011,10 @@ function Client() {
                     .client-header h1 {
                         font-size: 2rem;
                     }
+                    .notification-dropdown {
+                        width: 320px;
+                        right: -50px;
+                    }
                 }
 
                 @media (max-width: 480px) {
@@ -817,6 +1041,10 @@ function Client() {
                         padding: 10px 20px;
                         font-size: 0.9rem;
                     }
+                    .notification-dropdown {
+                        width: 290px;
+                        right: -60px;
+                    }
                 }
             `}</style>
 
@@ -836,7 +1064,67 @@ function Client() {
                             </div>
                         )}
                     </div>
-                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                        <div className="notification-container">
+                            <button 
+                                className="bell-icon" 
+                                onClick={() => setShowNotifications(!showNotifications)}
+                            >
+                                🔔
+                                {unreadCount > 0 && (
+                                    <span className="badge">{unreadCount}</span>
+                                )}
+                            </button>
+                            {showNotifications && (
+                                <div className="notification-dropdown">
+                                    <div className="notification-header">
+                                        <h3>📬 Notifications</h3>
+                                        {notifications.length > 0 && (
+                                            <button className="mark-all-btn" onClick={markAllAsRead}>
+                                                Mark all as read
+                                            </button>
+                                        )}
+                                    </div>
+                                    {notifications.length === 0 ? (
+                                        <div className="notification-empty">
+                                            <span className="empty-icon">🔕</span>
+                                            <p>No notifications yet</p>
+                                            <p style={{ fontSize: '0.8rem', color: '#666' }}>
+                                                You'll be notified when your requests are updated
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        notifications.map((notification) => (
+                                            <div 
+                                                key={notification.id} 
+                                                className={`notification-item ${notification.read ? 'read' : 'unread'}`}
+                                                onClick={() => handleNotificationClick(notification.id)}
+                                            >
+                                                <span className="notification-icon">
+                                                    {getNotificationIcon(notification.newStatus)}
+                                                </span>
+                                                <div className="notification-content">
+                                                    <p className="message">{notification.message}</p>
+                                                    <p className="time">
+                                                        {notification.timestamp.toLocaleString()}
+                                                    </p>
+                                                    <span 
+                                                        className="status-badge"
+                                                        style={{
+                                                            background: getStatusBadge(notification.newStatus).color + '20',
+                                                            color: getStatusBadge(notification.newStatus).color,
+                                                            border: `1px solid ${getStatusBadge(notification.newStatus).color}40`
+                                                        }}
+                                                    >
+                                                        {getStatusBadge(notification.newStatus).label}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            )}
+                        </div>
                         <button className="refresh-btn" onClick={refreshData}>
                             🔄 Refresh
                         </button>
