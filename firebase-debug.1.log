@@ -1,0 +1,77 @@
+[debug] [2026-06-29T09:54:39.402Z] ----------------------------------------------------------------------
+[debug] [2026-06-29T09:54:39.405Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\lokes\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2026-06-29T09:54:39.405Z] CLI Version:   15.22.3
+[debug] [2026-06-29T09:54:39.406Z] Platform:      win32
+[debug] [2026-06-29T09:54:39.406Z] Node Version:  v20.20.0
+[debug] [2026-06-29T09:54:39.406Z] Detected Agent: unknown
+[debug] [2026-06-29T09:54:39.406Z] Time:          Mon Jun 29 2026 15:24:39 GMT+0530 (India Standard Time)
+[debug] [2026-06-29T09:54:39.406Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-06-29T09:54:42.583Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-29T09:54:42.584Z] > authorizing via signed-in user (lokeshsl8117@gmail.com)
+[debug] [2026-06-29T09:54:42.584Z] [iam] checking project srisaas-1e343 for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-06-29T09:54:42.586Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:42.586Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:42.587Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/srisaas-1e343:testIamPermissions [none]
+[debug] [2026-06-29T09:54:42.587Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/srisaas-1e343:testIamPermissions  x-goog-user-project=srisaas-1e343
+[debug] [2026-06-29T09:54:42.588Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/srisaas-1e343:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-06-29T09:54:44.252Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/srisaas-1e343:testIamPermissions 200
+[debug] [2026-06-29T09:54:44.252Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/srisaas-1e343:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-06-29T09:54:44.253Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:44.253Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:44.254Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/srisaas-1e343 [none]
+[debug] [2026-06-29T09:54:44.883Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/srisaas-1e343 200
+[debug] [2026-06-29T09:54:44.884Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/srisaas-1e343 {"projectId":"srisaas-1e343","projectNumber":"131854556658","displayName":"SriSaas","name":"projects/srisaas-1e343","resources":{"hostingSite":"srisaas-1e343"},"state":"ACTIVE","etag":"1_64f38f57-9e5d-4f03-b0cb-58849455d63d"}
+[info] 
+[info] === Deploying to 'srisaas-1e343'...
+[info] 
+[info] i  deploying firestore, hosting 
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2026-06-29T09:54:44.892Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:44.892Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:44.892Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases/(default) [none]
+[debug] [2026-06-29T09:54:45.954Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases/(default) 404
+[debug] [2026-06-29T09:54:45.955Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases/(default) {"error":{"code":404,"message":"Project 'srisaas-1e343' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] i  firestore: Creating the new Firestore database (default)... 
+[debug] [2026-06-29T09:54:45.956Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:45.956Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:45.957Z] >>> [apiv2][query] POST https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases databaseId=%28default%29
+[debug] [2026-06-29T09:54:45.957Z] >>> [apiv2][body] POST https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases {"locationId":"nam5","type":"FIRESTORE_NATIVE","databaseEdition":"STANDARD","deleteProtectionState":"DELETE_PROTECTION_DISABLED","pointInTimeRecoveryEnablement":"POINT_IN_TIME_RECOVERY_DISABLED"}
+[debug] [2026-06-29T09:54:47.200Z] <<< [apiv2][status] POST https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases 200
+[debug] [2026-06-29T09:54:47.200Z] <<< [apiv2][body] POST https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases {"name":"projects/srisaas-1e343/databases/(default)/operations/f0UnGDQ954drQcNmQj7VdhAqNW1hbgQiBRBIlru4EAbSiYHoCAsKJxo","metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.CreateDatabaseMetadata"},"done":true,"response":{"@type":"type.googleapis.com/google.firestore.admin.v1.Database","name":"projects/srisaas-1e343/databases/(default)","uid":"76d53e42-66c3-416b-87e7-3d341827457f","createTime":"2026-06-29T09:54:48.151363Z","updateTime":"2026-06-29T09:54:48.151363Z","locationId":"nam5","type":"FIRESTORE_NATIVE","concurrencyMode":"PESSIMISTIC","versionRetentionPeriod":"3600s","earliestVersionTime":"2026-06-29T09:54:48.151363Z","appEngineIntegrationMode":"DISABLED","keyPrefix":"s","pointInTimeRecoveryEnablement":"POINT_IN_TIME_RECOVERY_DISABLED","deleteProtectionState":"DELETE_PROTECTION_DISABLED","databaseEdition":"STANDARD","freeTier":true,"realtimeUpdatesMode":"REALTIME_UPDATES_MODE_ENABLED","etag":"IN7SmpeXrJUDMMOymZeXrJUD"}}
+[debug] [2026-06-29T09:54:47.201Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:47.201Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:47.201Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases/(default)/operations/f0UnGDQ954drQcNmQj7VdhAqNW1hbgQiBRBIlru4EAbSiYHoCAsKJxo [none]
+[debug] [2026-06-29T09:54:47.574Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases/(default)/operations/f0UnGDQ954drQcNmQj7VdhAqNW1hbgQiBRBIlru4EAbSiYHoCAsKJxo 200
+[debug] [2026-06-29T09:54:47.574Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/srisaas-1e343/databases/(default)/operations/f0UnGDQ954drQcNmQj7VdhAqNW1hbgQiBRBIlru4EAbSiYHoCAsKJxo {"name":"projects/srisaas-1e343/databases/(default)/operations/f0UnGDQ954drQcNmQj7VdhAqNW1hbgQiBRBIlru4EAbSiYHoCAsKJxo","metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.CreateDatabaseMetadata"},"done":true,"response":{"@type":"type.googleapis.com/google.firestore.admin.v1.Database","name":"projects/srisaas-1e343/databases/(default)","uid":"76d53e42-66c3-416b-87e7-3d341827457f","createTime":"2026-06-29T09:54:48.151363Z","updateTime":"2026-06-29T09:54:48.151363Z","locationId":"nam5","type":"FIRESTORE_NATIVE","concurrencyMode":"PESSIMISTIC","versionRetentionPeriod":"3600s","earliestVersionTime":"2026-06-29T09:54:48.151363Z","appEngineIntegrationMode":"DISABLED","keyPrefix":"s","pointInTimeRecoveryEnablement":"POINT_IN_TIME_RECOVERY_DISABLED","deleteProtectionState":"DELETE_PROTECTION_DISABLED","databaseEdition":"STANDARD","freeTier":true,"realtimeUpdatesMode":"REALTIME_UPDATES_MODE_ENABLED","etag":"IIX1sZeXrJUDMMOymZeXrJUD"}}
+[info] i  firestore: reading indexes from firestore.indexes.json... 
+[info] i  cloud.firestore: checking firestore.rules for compilation errors... 
+[debug] [2026-06-29T09:54:47.577Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:47.578Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:47.578Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/srisaas-1e343:test [none]
+[debug] [2026-06-29T09:54:47.578Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/srisaas-1e343:test [omitted]
+[debug] [2026-06-29T09:54:49.087Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/srisaas-1e343:test 200
+[debug] [2026-06-29T09:54:49.087Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/srisaas-1e343:test {}
+[info] +  cloud.firestore: rules file firestore.rules compiled successfully 
+[debug] [2026-06-29T09:54:49.089Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:49.089Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:49.089Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/srisaas-1e343/sites/srisaas-1e343 [none]
+[debug] [2026-06-29T09:54:50.254Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/srisaas-1e343/sites/srisaas-1e343 200
+[debug] [2026-06-29T09:54:50.254Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/srisaas-1e343/sites/srisaas-1e343 {"name":"projects/srisaas-1e343/sites/srisaas-1e343","defaultUrl":"https://srisaas-1e343.web.app","appId":"1:131854556658:web:28305a16b93644fd479f6b","type":"DEFAULT_SITE"}
+[debug] [2026-06-29T09:54:50.261Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:50.261Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:50.261Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/srisaas-1e343/versions [none]
+[debug] [2026-06-29T09:54:50.261Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/srisaas-1e343/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-06-29T09:54:52.238Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/srisaas-1e343/versions 200
+[debug] [2026-06-29T09:54:52.238Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/srisaas-1e343/versions {"name":"projects/131854556658/sites/srisaas-1e343/versions/a4cbe0726bae68f0","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-06-29T09:54:52.239Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:52.239Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:52.239Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/srisaas-1e343/releases pageSize=10&pageToken=
+[debug] [2026-06-29T09:54:53.580Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/srisaas-1e343/releases 200
+[debug] [2026-06-29T09:54:53.581Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/srisaas-1e343/releases {}
+[info] i  firestore: uploading rules firestore.rules... 
+[debug] [2026-06-29T09:54:53.584Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:53.584Z] Checked if tokens are valid: true, expires at: 1782729784151
+[debug] [2026-06-29T09:54:53.585Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/srisaas-1e343/rulesets [none]
+[debug] [2026-06-29T09:54:53.585Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/srisaas-1e343/rulesets [omitted]
